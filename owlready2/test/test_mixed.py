@@ -13,3 +13,4 @@ class Child(Thing):
   namespace = onto
   def test(self): return "ok2"
 
+
