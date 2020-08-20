@@ -1,0 +1,9 @@
+Inconsistent class:    
+    <owl:Class rdf:about="#ThinAndCrispyBase">
+        <rdfs:label xml:lang="pt"
+            >BaseFinaEQuebradica</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#PizzaBase"/>
+        <rdfs:subClassOf rdf:resource="#PizzaTopping"/>
+        <owl:disjointWith rdf:resource="#DeepPanBase"/>
+    </owl:Class>
+Reason: -->#message from the reasoner 
