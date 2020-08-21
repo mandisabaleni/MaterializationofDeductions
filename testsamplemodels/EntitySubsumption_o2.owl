@@ -8,10 +8,6 @@
 
 <owl:Ontology rdf:about="EntitySubsumption_o2.owl"/>
 
-<rdf:Description rdf:about="http://www.co-ode.org/ontologies/pizza/pizza.owl#CheeseyPizza">
-  <rdfs:subClassOf rdf:resource="http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza"/>
-</rdf:Description>
-
 <rdf:Description rdf:about="http://www.co-ode.org/ontologies/pizza/pizza.owl#Margherita">
   <rdfs:subClassOf rdf:resource="http://www.co-ode.org/ontologies/pizza/pizza.owl#CheeseyPizza"/>
 </rdf:Description>
