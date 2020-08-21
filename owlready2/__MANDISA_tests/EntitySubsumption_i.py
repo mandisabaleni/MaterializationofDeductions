@@ -20,6 +20,8 @@ test_onto.save()
 prep = PreprocessMaterialize(test_file_path+"/EntitySubsumption_i.owl",test_file_path+"/EntitySubsumption_o2.owl",test_file_path+"/EntitySubsumption_o.owl" )
 
 prep.find_items()
+for i in prep.deductions:
+    print(i.toString())
 #test_onto.save(file= (test_file_path + "/EntitySubsumption_o2.owl"), format="rdfxml")
 """onto.get_children_of()
 """

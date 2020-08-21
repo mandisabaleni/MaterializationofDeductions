@@ -51,7 +51,9 @@ class PreprocessMaterialize:
                         #print(end_tag+" <====end tag")
                         continue
                     if (start_of_deduction is True) and (end_tag in line):#end of a deduction
-                        self.deductions.append(Deduction(item_to_edit, whole_deduction))
+                        newded = Deduction(item_to_edit, whole_deduction)
+                        self.deductions.append(newded)
+                        print(newded.toString())
                         end_tag = "@#$%^&RESET"
                         item_to_edit = "@#$%^&RESET"
                         whole_deduction = ""
@@ -67,19 +69,5 @@ class PreprocessMaterialize:
                 print(line)
                 print("start header---end header---start deduction---end deduction")
                 print(start_of_header,end_of_header,start_of_deduction,end_of_deduction)
-    
-    
-                    
-                                item_to_edit = line.strip().split()[1][4:]
-                                print("item to edit--> "+ item_to_edit)
-                            
-                            for k, line in enumerate(self.deduction_object_file):
-                                if "subClassOf" in line:
-                                    edit = line.strip()
-                                    print(edit)
-                                    print ("LOOKING")
-                                    print(line.strip())
-                                    print("LOOKING")
-                                    #print(self.deduction_object_file.readline()+" <--line after last ontology line")
-                          '''
+                '''
 
