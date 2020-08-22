@@ -8,6 +8,6 @@ class Deduction:
         print("ITEM TO EDIT:")
         print("--------------")
         print(self.item_to_edit)
-        print("ENTIRE EDIT TO BE ADDED:")
+        print("DEDUCTION TO BE ADDED:")
         print("--------------")
         print(self.edit)

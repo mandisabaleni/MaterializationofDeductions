@@ -1,28 +1,33 @@
 from owlready2 import *
-from owlready2.preprocessMaterialize import PreprocessMaterialize
+from owlready2.materialize import Materialize
+from owlready2.preprocess import Preprocess
 
 test_file_path = "/Users/mandisabaleni/PycharmProjects/MaterializationOfDeductions/testsamplemodels"
-owl_name = "EntitySubsumption_i.owl"
-owl_name_output_test = "EntitySubsumption_o2.owl"
+input_owl_name = "EntitySubsumption_i.owl"
+deductions_owl_name = "EntitySubsumption_o2.owl"
+output_owl_name = "EntitySubsumption_o.owl"
 
 onto_path.append(test_file_path)
-onto = get_ontology(owl_name)
+onto = get_ontology(input_owl_name)
 onto.load()
 print(list(onto.classes()))
 print(list(onto.object_properties()))
 print(list(onto.object_properties()))
 
-test_onto =get_ontology(owl_name_output_test)
+test_onto =get_ontology(deductions_owl_name)
 with test_onto:
     sync_reasoner()
 print("after reasoning")
 test_onto.save()
-prep = PreprocessMaterialize(test_file_path+"/EntitySubsumption_i.owl",test_file_path+"/EntitySubsumption_o2.owl",test_file_path+"/EntitySubsumption_o.owl" )
 
+prep = Preprocess(test_file_path + "/" + input_owl_name, test_file_path + "/" + deductions_owl_name, test_file_path + "/" + output_owl_name )
 prep.find_items()
+material = Materialize(prep.deductions, test_file_path + "/" + input_owl_name, test_file_path + "/" + output_owl_name)
+material.load_input_file()
+material.materialize_deductions()
+'''
 for i in prep.deductions:
     print(i.toString())
-#test_onto.save(file= (test_file_path + "/EntitySubsumption_o2.owl"), format="rdfxml")
-"""onto.get_children_of()
-"""
+'''
+
 

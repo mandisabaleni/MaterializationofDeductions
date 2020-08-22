@@ -1,9 +1,7 @@
 from owlready2.deduction import Deduction
 from owlready2.namespace import _open_onto_file
-from array import array
 
-
-class PreprocessMaterialize:
+class Preprocess:
     def __init__(self, input_file, deductions_file, output_file):
         self.input_file = input_file
         self.deductions_file = deductions_file
@@ -45,7 +43,7 @@ class PreprocessMaterialize:
                     if "rdf:about=" in line:#start of deduction
                         start_of_deduction = True
                         end_of_deduction = False
-                        print("start of deduction -->"+line)
+                        #print("start of deduction -->"+line)
                         end_tag = '''</'''+line.strip().split()[0][1:]+'''>'''
                         item_to_edit = line.strip().split()[1][4:]
                         #print(end_tag+" <====end tag")
@@ -53,7 +51,7 @@ class PreprocessMaterialize:
                     if (start_of_deduction is True) and (end_tag in line):#end of a deduction
                         newded = Deduction(item_to_edit, whole_deduction)
                         self.deductions.append(newded)
-                        print(newded.toString())
+                        #print(newded.toString())
                         end_tag = "@#$%^&RESET"
                         item_to_edit = "@#$%^&RESET"
                         whole_deduction = ""
@@ -62,7 +60,7 @@ class PreprocessMaterialize:
 
                     if start_of_deduction:
                         if end_of_deduction is False:#in betwwen here are the actual edits
-                           print("in between<---"+line )
+                           #print("in between<---"+line )
                            whole_deduction += line
                            #print("whole deduction---> "+whole_deduction)
                 '''            
