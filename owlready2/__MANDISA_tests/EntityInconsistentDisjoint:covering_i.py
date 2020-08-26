@@ -3,9 +3,9 @@ from owlready2.materialize import Materialize
 from owlready2.preprocess import Preprocess
 
 test_file_path = "/Users/mandisabaleni/PycharmProjects/MaterializationOfDeductions/testsamplemodels"
-input_owl_name = "EntitySubsumption_i.owl"
+input_owl_name = "EntityInconsistentDisjoint:covering_i.owl"
 deductions_owl_name = "temp.owl"
-output_owl_name = "EntitySubsumption_o.owl"
+output_owl_name = "EntityInconsistentDisjoint:covering_o.owl"
 
 onto_path.append(test_file_path)
 onto = get_ontology(input_owl_name)

@@ -104,7 +104,7 @@ def _keep_most_specific(s, consider_equivalence = True):
   return r
 
 
-def sync_reasoner_hermit(x = None, infer_property_values = False, debug = 1, keep_tmp_file = False):
+def sync_reasoner_hermit(x = None, infer_property_values = True, debug = 1, keep_tmp_file = False):
   if   isinstance(x, World):    world = x
   elif isinstance(x, Ontology): world = x.world
   elif isinstance(x, list):     world = x[0].world
@@ -152,10 +152,17 @@ def sync_reasoner_hermit(x = None, infer_property_values = False, debug = 1, kee
     new_equivs  = defaultdict(list)
     entity_2_type = {}
 
-    for relation, concept_iris in _HERMIT_RESULT_REGEXP.findall(output):
-      concept_storids = [ontology._abbreviate(x) for x in concept_iris[1:-1].split("> <")]
+    for relation, concept_iris in _HERMIT_RESULT_REGEXP.findall(output):#object property inferences?
+      concept_storids = [ontology._abbreviate(x) for x in concept_iris[1:-1].split("> <")]#each itemised line
       owl_relation = _HERMIT_2_OWL[relation]
-    
+      '''
+      print("relation below\n---------------------")
+      print(relation)
+      print()
+      print("cpncept_iris below\n---------------------")
+      print(concept_iris)
+      print()
+      '''
       if  relation in _IS_A_RELATIONS:
         if concept_iris[0].startswith("http://www.w3.org/2002/07/owl"): continue
         
@@ -178,7 +185,6 @@ def sync_reasoner_hermit(x = None, infer_property_values = False, debug = 1, kee
               if concept_iri1 == concept_iri2: continue
               new_equivs[concept_storid1].append(concept_storid2)
               entity_2_type[concept_storid1] = _OWL_2_TYPE[owl_relation]
-
     if infer_property_values:
       inferred_obj_relations = []
       for prop_iri, knowns, possibles in _HERMIT_PROP_REGEXP.findall(output):
@@ -194,22 +200,22 @@ def sync_reasoner_hermit(x = None, infer_property_values = False, debug = 1, kee
               (not world._has_obj_triple_spo(a_storid, prop.storid, b_storid)) and
              ((not prop._inverse_property) or (not world._has_obj_triple_spo(b_storid, prop._inverse_storid, a_storid)))):
             inferred_obj_relations.append((a_storid, prop, b_storid))
-          
     if not keep_tmp_file: os.unlink(tmp.name)
     
   finally:
+
     if locked: world.graph.acquire_write_lock() # re-lock when applying results
-    
+   
   _apply_reasoning_results(world, ontology, debug, new_parents, new_equivs, entity_2_type)
   if infer_property_values:
     _apply_inferred_obj_relations(world, ontology, debug, inferred_obj_relations)
-  
+
   if debug: print("* Owlready * (NB: only changes on entities loaded in Python are shown, other changes are done but not listed)", file = sys.stderr)
 
 sync_reasoner = sync_reasoner_hermit
 
 
-def sync_reasoner_pellet(x = None, infer_property_values = False, infer_data_property_values = False, debug = 1, keep_tmp_file = False):
+def sync_reasoner_pellet(x = None, infer_property_values = True, infer_data_property_values = False, debug = 1, keep_tmp_file = False):
   if   isinstance(x, World):    world = x
   elif isinstance(x, Ontology): world = x.world
   elif isinstance(x, list):     world = x[0].world

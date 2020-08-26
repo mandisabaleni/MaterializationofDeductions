@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY owl11 "http://www.w3.org/2006/12/owl11#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl11xml "http://www.w3.org/2006/12/owl11-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY pizza "http://www.co-ode.org/ontologies/pizza/pizza.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.co-ode.org/ontologies/pizza/pizza.owl#"
+     xml:base="http://www.co-ode.org/ontologies/pizza/pizza.owl"
+     xmlns:owl11="http://www.w3.org/2006/12/owl11#"
+     xmlns:pizza="http://www.co-ode.org/ontologies/pizza/pizza.owl#"
+     xmlns:owl11xml="http://www.w3.org/2006/12/owl11-xml#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#">
+    <owl:Ontology rdf:about="">
+        <rdfs:comment xml:lang="en"
+            >An example ontology that contains all constructs required for the various versions of the Pizza Tutorial run by Manchester University (see http://www.co-ode.org/resources/tutorials/)</rdfs:comment>
+        <owl:versionInfo xml:lang="en"
+            >v.1.5. Removed protege.owl import and references. Made ontology URI date-independent</owl:versionInfo>
+        <owl:versionInfo rdf:datatype="&xsd;string">version 1.5</owl:versionInfo>
+        <owl:versionInfo xml:lang="en"
+            >v.1.4. Added Food class (used in domain/range of hasIngredient), Added several hasCountryOfOrigin restrictions on pizzas, Made hasTopping invers functional</owl:versionInfo>
+    </owl:Ontology>
+
+
+
+<!-- http://www.co-ode.org/ontologies/pizza/pizza.owl#Food -->
+
+<owl:Class rdf:about="#Food">
+    <rdfs:subClassOf rdf:resource="#DomainConcept"/>
+</owl:Class>
+<!-- http://www.co-ode.org/ontologies/pizza/pizza.owl#hasIngredient -->
+
+<owl:ObjectProperty rdf:about="#hasIngredient">
+    <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+    <rdfs:comment xml:lang="en"
+        >NB Transitive - the ingredients of ingredients are ingredients of the whole</rdfs:comment>
+    <owl:inverseOf rdf:resource="#isIngredientOf"/>
+    <rdfs:domain rdf:resource="#Food"/>
+    <rdfs:range rdf:resource="#Food"/>
+</owl:ObjectProperty>
+
+
+
+
+<!-- http://www.co-ode.org/ontologies/pizza/pizza.owl#hasTopping -->
+
+<owl:ObjectProperty rdf:about="#hasTopping">
+    <rdfs:comment xml:lang="en"
+        >Note that hasTopping is inverse functional because isToppingOf is functional</rdfs:comment>
+    <rdfs:domain rdf:resource="#Pizza"/>
+    <rdfs:subPropertyOf rdf:resource="#hasIngredient"/>
+    <rdfs:range rdf:resource="#PizzaTopping"/>
+    <owl:inverseOf rdf:resource="#isToppingOf"/>
+</owl:ObjectProperty>
+
+
+<!-- http://www.co-ode.org/ontologies/pizza/pizza.owl#PizzaTopping -->
+
+<owl:Class rdf:about="#PizzaTopping">
+    <rdfs:label xml:lang="pt"
+        >CoberturaDaPizza</rdfs:label>
+    <rdfs:subClassOf rdf:resource="#Food"/>
+</owl:Class>
+
+
+<!-- http://www.co-ode.org/ontologies/pizza/pizza.owl#isToppingOf -->
+
+<owl:ObjectProperty rdf:about="#isToppingOf">
+    <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+    <rdfs:subPropertyOf rdf:resource="#isIngredientOf"/>
+    <rdfs:comment xml:lang="en"
+        >Any given instance of topping should only be added to a single pizza (no cheap half-measures on our pizzas)</rdfs:comment>
+    <rdfs:domain rdf:resource="#PizzaTopping"/>
+    <rdfs:range rdf:resource="#Pizza"/>
+</owl:ObjectProperty>
+
+<!-- http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza -->
+
+<owl:Class rdf:about="#Pizza">
+    <rdfs:label xml:lang="en">Pizza</rdfs:label>
+    <rdfs:subClassOf rdf:resource="#Food"/>
+    <owl:disjointWith rdf:resource="#PizzaTopping"/>
+</owl:Class>
+
+<!-- http://www.co-ode.org/ontologies/pizza/pizza.owl#PizzaTopping -->
+
+<owl:Class rdf:about="#PizzaTopping">
+    <rdfs:label xml:lang="pt"
+        >CoberturaDaPizza</rdfs:label>
+    <rdfs:subClassOf rdf:resource="#Food"/>
+</owl:Class>
+</rdf:RDF>

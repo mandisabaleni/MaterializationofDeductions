@@ -78,8 +78,8 @@
     <!-- http://www.co-ode.org/ontologies/pizza/pizza.owl#ThinAndCrispyBase -->
     
     <owl:Class rdf:about="#ThinAndCrispyBase">
-        <!-- DEDUCTION-->
-        <!--ICONSISTENT-->
+<!--DEDUCTION-->
+<!--INCONSISTENT CLASS-->
         <rdfs:label xml:lang="pt"
             >BaseFinaEQuebradica</rdfs:label>
         <rdfs:subClassOf rdf:resource="#PizzaBase"/>
@@ -92,6 +92,10 @@
     <owl:Class rdf:about="#DeepPanBase">
         <rdfs:label xml:lang="pt">BaseEspessa</rdfs:label>
         <rdfs:subClassOf rdf:resource="#PizzaBase"/>
+    </owl:Class>
+    
+</rdf:RDF>
+>
     </owl:Class>
     
 </rdf:RDF>
