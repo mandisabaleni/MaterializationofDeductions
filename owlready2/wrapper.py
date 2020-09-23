@@ -33,17 +33,18 @@ class Wrapper:
         index_e = deduction.edit.rfind('#')
         refact_e = deduction.edit[index_e+1:len(deduction.edit)-4]
         print(self.tab + refact_i_t_e + " is a subclass of " + refact_e )
-        print(self.tab + "\n" +self.tab + "Please select what to do with the deduction from the choices below:"+"\n"+self.tab + "(Reference deduction by number. E.g 1 a")
+        print(self.tab + "\n" +self.tab + "Please select what to do with the deduction from the choices below:"+"\n"+self.tab + "( E.g a")
         print(self.tab + self._1 +self.tab +  self._2 +self.tab + self._4)
         choice = input()
-        if choice == ("1 a"):
+        if choice == ("a"):#deduction accepted
             print("Deduction accepted.")
-        if choice == ("1 b"):
+        if choice == ("b"):#remove constraint
             self.remove_deduction(deduction)
             print("Deduction has been removed")
-        if choice == ("1 c"):
+        if choice == ("c"):#remove subclass
             #delete subclass and all references to it in entire file
-            print(refact_i_t_e + " has been removed. All references to the class have also been removed")
+            self.remove_subclass(deduction)
+            print(refact_i_t_e + " has been removed. All constraints referencing the class have also been removed")
 
     def remove_deduction(self, deduction):
         print(deduction.edit.encode('ascii'))
@@ -58,3 +59,11 @@ class Wrapper:
         print("printing file AFTER deduction removed")
         for line in self.materialize.list_file:
             print(line)
+
+    def remove_subclass(self, deduction):
+        print(deduction.item_to_edit)
+
+    def onlysubclass(self):
+        print("method that checks removing for only subclass. currently not implemented")
+
+

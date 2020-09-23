@@ -26,6 +26,8 @@ class Materialize:
                 refact_item_to_edit = deduction.item_to_edit[:7]+deduction.item_to_edit[index:]
                 '''this is where we need to differentiate between types ,below 2 lines works for entity & some relationship subsumption, inconsistency tags
                 if 'subclass' : self.add
+                inherit cardinality restrictions(from parent class)
+                domain and ranges*?
                 if 'inconsistent' : self.add
                 if object property and object property doesn't exist: self.add
                 if object property and object property does exist: self.replace

@@ -3,7 +3,7 @@ from owlready2.materialize import Materialize
 from owlready2.preprocess import Preprocess
 
 test_file_path = "/Users/mandisabaleni/PycharmProjects/MaterializationOfDeductions/testsamplemodels"
-input_owl_name = "EntitySubsumption_i.owl"
+input_owl_name = "EntitySubsumptionbinary1-1mand_i"
 deductions_owl_name = "temp.owl"
 output_owl_name = "EntitySubsumption_o.owl"
 

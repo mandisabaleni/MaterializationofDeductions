@@ -3,17 +3,17 @@
          xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
          xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
          xmlns:owl="http://www.w3.org/2002/07/owl#"
-         xml:base="temp"
-         xmlns="temp#">
+         xml:base="temp.owl"
+         xmlns="temp.owl#">
 
-<owl:Ontology rdf:about="temp"/>
+<owl:Ontology rdf:about="temp.owl"/>
 
-<rdf:Description rdf:about="http://www.co-ode.org/ontologies/pizza/pizza.owl#CheeseyPizza">
-  <rdfs:subClassOf rdf:resource="http://www.co-ode.org/ontologies/pizza/pizza.owl#Pizza"/>
+<rdf:Description rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#CheeseyPizza">
+  <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Pizza"/>
 </rdf:Description>
 
-<rdf:Description rdf:about="http://www.co-ode.org/ontologies/pizza/pizza.owl#Margherita">
-  <rdfs:subClassOf rdf:resource="http://www.co-ode.org/ontologies/pizza/pizza.owl#CheeseyPizza"/>
+<rdf:Description rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Margherita">
+  <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#CheeseyPizza"/>
 </rdf:Description>
 
 
