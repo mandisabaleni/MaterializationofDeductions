@@ -20,12 +20,14 @@ test_onto.save()
 
 prep = Preprocess(test_file_path + "/" + input_owl_name, test_file_path + "/" + deductions_owl_name, test_file_path + "/" + output_owl_name )
 prep.items_original_file()
-#prep.find_items()
-#material = Materialize(prep.deductions, test_file_path + "/" + input_owl_name, test_file_path + "/" + output_owl_name)
+
+prep.find_items()
+material = Materialize(prep.deductions, test_file_path + "/" + input_owl_name, test_file_path + "/" + output_owl_name, prep)
+
 #material.load_input_file()
 #material.materialize_deductions()
 #material.write_to_RDFXML()
 
-#wrap = Wrapper(material)
-#wrap.manage()
+wrap = Wrapper(material, prep)
+wrap.manage()
 

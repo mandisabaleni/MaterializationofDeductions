@@ -3,7 +3,7 @@ from owlready2.materialize import Materialize
 from owlready2.preprocess import Preprocess
 
 test_file_path = "/Users/mandisabaleni/PycharmProjects/MaterializationOfDeductions/testsamplemodels"
-input_owl_name = "EntitySubsumptionbinary1-1mand_i"
+input_owl_name = "EntitySubsumptionbinary1-1optional_i"
 deductions_owl_name = "temp.owl"
 output_owl_name = "EntitySubsumption_o.owl"
 
@@ -22,7 +22,7 @@ test_onto.save()#change back to test_onto
 
 prep = Preprocess(test_file_path + "/" + input_owl_name, test_file_path + "/" + deductions_owl_name, test_file_path + "/" + output_owl_name )
 prep.find_items()
-material = Materialize(prep.deductions, test_file_path + "/" + input_owl_name, test_file_path + "/" + output_owl_name)
+material = Materialize(prep.deductions, test_file_path + "/" + input_owl_name, test_file_path + "/" + output_owl_name,prep)
 material.load_input_file()
 material.materialize_deductions()
 material.write_to_RDFXML()

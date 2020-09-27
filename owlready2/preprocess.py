@@ -7,12 +7,13 @@ class Preprocess:
         self.input_file = input_file
         self.deductions_file = deductions_file
         self.output_file = output_file
-        base_iri = '''<?xml version="1.0"?>'''
-        self.input_object_file = _open_onto_file(base_iri, self.input_file, mode="rt", only_local=False)
-        self.deduction_object_file = _open_onto_file(base_iri, self.deductions_file, mode="rt", only_local=False)
+        self.base_iri = '''<?xml version="1.0"?>'''
+        self.input_object_file = _open_onto_file(self.base_iri, self.input_file, mode="rt", only_local=False)
+        self.deduction_object_file = _open_onto_file(self.base_iri, self.deductions_file, mode="rt", only_local=False)
         self.deductions = []
         self.items = []
         self.obj_items = []
+        self.header = ''
     """
     reads past XML header
     """
@@ -22,6 +23,16 @@ class Preprocess:
                 line = line.strip()
                 if line == '''</owl:Ontology>''':
                     print("Header excluded")
+
+    def get_header(self):
+        with _open_onto_file(self.base_iri, self.input_file, mode="rt", only_local=False) as f:
+            header = ''
+            for i, line in enumerate(f):
+                if ('''</owl:Ontology>''' in line) or (    ('''<owl:Ontology''' in line) and ('''/>'''in line)    ):
+                    header += line
+                    #print(header)
+                    return header + "\n\n"
+                else: header += line
 
     """
     Finds and stores all items(classes, properties etc) to container, returns that container
@@ -36,14 +47,19 @@ class Preprocess:
             item_to_edit = "@#$%^&RESET"
             whole_deduction = ""
             for i, line in enumerate(f):
-                if "Ontology" in line:
+
+                #if "Ontology" in line:
+                 #   start_of_header = True
+                  #  if '''/>''' in line:
+                   #     end_of_header = True
+                    #    continue
+                #if (start_of_header == True) and ('''</owl:Ontology>''' in line):
+                 #   end_of_header = True
+                  #  continue
+
+                if ('''</owl:Ontology>''' in line) or (('''<owl:Ontology''' in line) and ('''/>''' in line)):
                     start_of_header = True
-                    if '''/>''' in line:
-                        end_of_header = True
-                        continue
-                if (start_of_header == True) and ('''</owl:Ontology>''' in line):
                     end_of_header = True
-                    continue
                 if start_of_header and end_of_header:#end of header
                     if "rdf:about=" in line:#start of deduction
                         start_of_deduction = True
@@ -74,7 +90,7 @@ class Preprocess:
                 print(start_of_header,end_of_header,start_of_deduction,end_of_deduction)
                 '''
     def items_original_file(self):
-       with self.input_object_file as f:
+       with _open_onto_file(self.base_iri, self.input_file, mode="rt", only_local=False) as f:
            stack = []
            in_item = False
            eq = False
@@ -112,9 +128,16 @@ class Preprocess:
                    index = line.index("rdf:about=")
                    #item_type = line[:index].strip()
                    item_name = line[index+11:line.rindex("\"")].strip()
-                   self.items.append(Item(item_name))
-
+                   self.items.append(Item(line))#alt to add with item_name
+               if "<owl:ObjectProperty rdf:about=" in line:#if beginning of new obj prop item
+                   index = line.index("rdf:about=")
+                   item_name = line[index + 11:line.rindex("\"")].strip()
+                   self.obj_items.append(Item(line))#alt to add with item_name
                if in_item:
+                   if "<rdfs:subPropertyOf" in line:
+                       self.obj_items[-1].bool_parent = True
+                       self.obj_items[-1].parent += line
+                   #if domain and range etc.
                    if ("<rdfs:subClassOf" in line) and (line[line.index("<rdfs:subClassOf")+17: ].strip()!='') and (eq==False):#if parent class no empty subclass of
                        self.items[-1].bool_parent = True
                        self.items[-1].parent += line
@@ -128,9 +151,18 @@ class Preprocess:
                    if ("<rdfs:subClassOf" in line) and (line[line.index("<rdfs:subClassOf") + 17:].strip() == '') and (eq==False):#if subclass for cardinality restriction
                        self.items[-1].bool_card_restr = True
                        temp_str = line
+       return self.items #access via object rather
 
-           #'''
+
+
+
+    '''
            #self.items.pop(0)
+           for i in self.obj_items:
+               print("\n\n\n ------------------------\nName")
+               print(i.name)
+               print("Parents")
+               print(i.parent)
            for i in self.items:
                print("\n\n\n ------------------------\nName")
                print(i.name)
@@ -140,4 +172,6 @@ class Preprocess:
                print(i.card_restr)
                print("Parents")
                print(i.parent)
-          # '''
+               print("Disjoint")
+               print(i.disjoint)
+          '''

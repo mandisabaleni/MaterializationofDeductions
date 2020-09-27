@@ -1,7 +1,8 @@
 from owlready2.namespace import _open_onto_file
 
 class Materialize:
-    def __init__(self, deductions, input_file, output_file):
+    def __init__(self, deductions, input_file, output_file, prep):
+        self.preprocess = prep
         self.deductions = deductions
         self.input_file = input_file
         self.output_file = output_file
@@ -10,6 +11,9 @@ class Materialize:
         self.dict_deduction_line = {}#{deduction.edit, line number where it was added}
         self.input_object_file = _open_onto_file(self.base_iri, self.input_file, mode="rb", only_local=False)
         self.output_object_file = _open_onto_file(self.base_iri, self.output_file, mode="rb+", only_local=False)
+
+        self.OBJ_PROP_HEADER = '\n\n    <!--\n    ///////////////////////////////////////////////////////////////////////////////////////    \n//    \n// Object Properties    \n//    \n///////////////////////////////////////////////////////////////////////////////////////    \n -->'
+        self.CLASS_HEADER = '\n\n    <!--\n    ///////////////////////////////////////////////////////////////////////////////////////    \n//    \n// Classes    \n//    \n///////////////////////////////////////////////////////////////////////////////////////    \n -->'
 
     def load_input_file(self):
         for line in self.input_object_file:
@@ -48,12 +52,12 @@ class Materialize:
         #self.write_to_RDFXML()
         #for line in self.list_file:
             #self.output_object_file.write(line)
-
+        print("materialize deductions")
     def write_to_RDFXML(self):
         for line in self.list_file:
             self.output_object_file.write(line)
             #print(line)
-        print("deductions have been materialized")
+        print("write_to_RDFXML")
         '''    
                 print()
                 print("line\n-----")
@@ -63,13 +67,30 @@ class Materialize:
                 print("item to edit\n-------")
                 print(deduction.item_to_edit)
             '''
+    def write_to_RDFXML_via_items(self, all_class_items, all_obj_items):
+        self.output_object_file.write(self.preprocess.get_header().encode('ascii'))
+        self.output_object_file.write(self.OBJ_PROP_HEADER.encode('ascii'))
+        if all_obj_items:
+            for o_i in all_obj_items:
+                #o_i.assemble()
+                #o_i.full_item()
+                self.output_object_file.write(o_i.full.encode('ascii'))
+
+        self.output_object_file.write(self.CLASS_HEADER.encode('ascii'))
+        if all_class_items:
+            for c_i in all_class_items:
+                #c_i.assemble()
+                #c_i.full_item()
+                self.output_object_file.write(c_i.full.encode('ascii'))
+            #print(line)
+        self.output_object_file.write('\n</rdf:RDF>'.encode('ascii'))
 
     def add(self, i, item_to_edit, alt_item_to_edit, edit, line):
+        print("adding deduction")
         if (item_to_edit in line) or (alt_item_to_edit in line):  # with iri or without iri
             self.list_file.insert(i+1, edit)
             self.dict_deduction_line[edit] = i+1
             for i in self.dict_deduction_line:
-                print('dictionary')
                 print(edit)
                 print(self.dict_deduction_line[edit])
 
