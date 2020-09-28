@@ -12,8 +12,8 @@ class Materialize:
         self.input_object_file = _open_onto_file(self.base_iri, self.input_file, mode="rb", only_local=False)
         self.output_object_file = _open_onto_file(self.base_iri, self.output_file, mode="rb+", only_local=False)
 
-        self.OBJ_PROP_HEADER = '\n\n    <!--\n    ///////////////////////////////////////////////////////////////////////////////////////    \n//    \n// Object Properties    \n//    \n///////////////////////////////////////////////////////////////////////////////////////    \n -->'
-        self.CLASS_HEADER = '\n\n    <!--\n    ///////////////////////////////////////////////////////////////////////////////////////    \n//    \n// Classes    \n//    \n///////////////////////////////////////////////////////////////////////////////////////    \n -->'
+        self.OBJ_PROP_HEADER = '\n    <!--\n    ///////////////////////////////////////////////////////////////////////////////////////\n    //\n    // Object Properties\n    //\n    ///////////////////////////////////////////////////////////////////////////////////////\n     -->\n\n\n'
+        self.CLASS_HEADER = '\n    <!--\n    ///////////////////////////////////////////////////////////////////////////////////////\n    //\n    // Classes\n    //\n    ///////////////////////////////////////////////////////////////////////////////////////\n     -->\n\n\n'
 
     def load_input_file(self):
         for line in self.input_object_file:
@@ -72,15 +72,19 @@ class Materialize:
         self.output_object_file.write(self.OBJ_PROP_HEADER.encode('ascii'))
         if all_obj_items:
             for o_i in all_obj_items:
-                #o_i.assemble()
-                #o_i.full_item()
+                index = o_i.name.index("rdf:about=")
+                link = o_i.name[index + 11:o_i.name.rindex("\"")].strip()
+
+                self.output_object_file.write(('\n\n    <!-- '+link+' -->\n\n').encode('ascii'))
                 self.output_object_file.write(o_i.full.encode('ascii'))
 
         self.output_object_file.write(self.CLASS_HEADER.encode('ascii'))
         if all_class_items:
             for c_i in all_class_items:
-                #c_i.assemble()
-                #c_i.full_item()
+                index = c_i.name.index("rdf:about=")
+                link = c_i.name[index + 11:c_i.name.rindex("\"")].strip()
+
+                self.output_object_file.write(('\n\n    <!-- ' + link + ' -->\n\n').encode('ascii'))
                 self.output_object_file.write(c_i.full.encode('ascii'))
             #print(line)
         self.output_object_file.write('\n</rdf:RDF>'.encode('ascii'))

@@ -28,9 +28,16 @@ class Preprocess:
         with _open_onto_file(self.base_iri, self.input_file, mode="rt", only_local=False) as f:
             header = ''
             for i, line in enumerate(f):
+                '''
+                if i == 0:
+                    index = line.index('<?xml version="')
+                    num = int(line[index+15:line.index('.')])
+                    header += '<?xml version="'+str(num+1)+'.0"?>\n'
+                else:
+                '''
                 if ('''</owl:Ontology>''' in line) or (    ('''<owl:Ontology''' in line) and ('''/>'''in line)    ):
                     header += line
-                    #print(header)
+                        #print(header)
                     return header + "\n\n"
                 else: header += line
 

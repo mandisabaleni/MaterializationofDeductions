@@ -8,8 +8,12 @@
 
 <owl:Ontology rdf:about="temp.owl"/>
 
-<rdf:Description rdf:about="http://www.co-ode.org/ontologies/pizza/pizza.owl#ThinAndCrispyBase">
-  <owl:equivalentClass rdf:resource="http://www.w3.org/2002/07/owl#Nothing"/>
+<rdf:Description rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#CheeseyPizza">
+  <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Pizza"/>
+</rdf:Description>
+
+<rdf:Description rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Margherita">
+  <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#CheeseyPizza"/>
 </rdf:Description>
 
 

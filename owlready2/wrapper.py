@@ -1,10 +1,13 @@
-from owlready2.deduction import Deduction
-from owlready2.namespace import _open_onto_file
+from owlready2 import *
+from owlready2.materialize import Materialize
+from owlready2.preprocess import Preprocess
+
 
 class Wrapper:
     def __init__(self, mod, prep):
         self.materialize = mod
         self.preprocess = prep
+        self.new_output_file = "EntitySubsumption_o2.owl"
         self._1 = "a) Accept\n"
         self._2 = "b) Decline (remove constraint)\n"
         self._3 = "c) Remove subclass\n"
@@ -37,15 +40,51 @@ class Wrapper:
         print(self.tab + "\n" +self.tab + "Please select what to do with the deduction from the choices below:"+"\n"+self.tab + "( E.g a")
         print(self.tab + self._1 +self.tab +  self._2 +self.tab + self._3)
         choice = input()
+        send_back = False
         if choice == ("a"):#deduction accepted
             print("Deduction accepted.")
         if choice == ("b"):#remove constraint
+            send_back = True
             self.remove_deduction(deduction)
             print("Deduction has been removed")
         if choice == ("c"):#remove subclass
+            send_back = True
             #delete subclass and all references to it in entire file
             self.remove_subclass(deduction)
             print(self.refact_i_t_e + " has been removed. All constraints referencing the class have also been removed")
+        if send_back:
+            self.resend()
+    def resend(self):
+        test_file_path = "/Users/mandisabaleni/PycharmProjects/MaterializationOfDeductions/testsamplemodels"
+        input_owl_name = self.materialize.output_file[self.materialize.output_file.rindex("/") + 1:]  # "EntitySubsumption_i"#"wrapper_removesubclass.owl"#
+        print("YO000")
+        print(input_owl_name)
+        print("Y0000")
+        deductions_owl_name = "temp2.owl"
+        output_owl_name = self.new_output_file  # change
+
+        onto_path.append(test_file_path)
+        re_onto = get_ontology(input_owl_name)
+        re_onto.load()
+        print("RESENDING")
+        print(list(re_onto.classes()))
+        print(list(re_onto.object_properties()))
+        print("AFTER RESENDING")
+
+        test_onto = get_ontology(deductions_owl_name)
+        with test_onto:  # change back to test_onto
+            sync_reasoner()
+        print("after reasoning TAKE 2")
+        test_onto.save()  # change back to test_onto
+
+        reprep = Preprocess(test_file_path + "/" + input_owl_name, test_file_path + "/" + deductions_owl_name,
+                            test_file_path + "/" + output_owl_name)
+        reprep.find_items()
+        rematerial = Materialize(reprep.deductions, test_file_path + "/" + input_owl_name,
+                                 test_file_path + "/" + output_owl_name, reprep)
+        rematerial.load_input_file()
+        rematerial.materialize_deductions()
+        rematerial.write_to_RDFXML()
 
     def remove_deduction(self, deduction):
         print(deduction.edit.encode('ascii'))

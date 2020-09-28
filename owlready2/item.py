@@ -54,9 +54,15 @@ class Item:
 
     def full_item(self):
         if "<owl:Class rdf:about=" in self.name:
-            self.full += "\n\n" + self.name + self.contents + "    </owl:Class>\n\n"
+            if self.contents == '':
+                self.full += self.name + self.contents + "\n"
+            else:
+                self.full += self.name + self.contents + "    </owl:Class>\n\n"
         if "<owl:ObjectProperty rdf:about=" in self.name:
-            self.full += "\n\n" + self.name + self.contents + "    </owl:ObjectProperty>\n\n"
+            if self.contents == '':
+                self.full += self.name + self.contents + "\n"
+            else:
+                self.full += self.name + self.contents + "    </owl:ObjectProperty>\n\n"
         print( self.full)
         return self.full
 
