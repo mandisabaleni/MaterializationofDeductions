@@ -22,6 +22,7 @@ class Materialize:
 
     def materialize_deductions(self):
         #add deduction in list encapsulating file
+        self.load_input_file()
         for i, line in enumerate(self.list_file):
             #print("line: ---->")
             #print(line)

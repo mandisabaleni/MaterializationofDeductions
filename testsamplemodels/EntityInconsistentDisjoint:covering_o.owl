@@ -75,7 +75,7 @@
         <rdfs:subClassOf rdf:resource="#Food"/>
     </owl:Class>
     
-    <!-- http://www.co-ode.org/ontologies/pizza/pizza.owl#ThinAndCrispyBase -->
+    <!-- http://www.co-ode.org/ontologies/pizza/pizza.owl#   dCrispyBase -->
     
     <owl:Class rdf:about="#ThinAndCrispyBase">
 <!--DEDUCTION-->

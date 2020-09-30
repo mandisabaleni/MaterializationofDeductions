@@ -1,5 +1,5 @@
-from owlready2.deduction import Deduction
-from owlready2.item import Item
+from owlready2.__MANDISA_tests.deduction import Deduction
+from owlready2.__MANDISA_tests.item import Item
 from owlready2.namespace import _open_onto_file
 
 class Preprocess:
@@ -145,6 +145,13 @@ class Preprocess:
                        self.obj_items[-1].bool_parent = True
                        self.obj_items[-1].parent += line
                    #if domain and range etc.
+                   if "<rdfs:domain" in line:
+                       self.obj_items[-1].bool_domain = True
+                       self.obj_items[-1].domain += line
+                   if "<rdfs:range" in line:
+                       self.obj_items[-1].bool_range = True
+                       self.obj_items[-1].range += line
+
                    if ("<rdfs:subClassOf" in line) and (line[line.index("<rdfs:subClassOf")+17: ].strip()!='') and (eq==False):#if parent class no empty subclass of
                        self.items[-1].bool_parent = True
                        self.items[-1].parent += line

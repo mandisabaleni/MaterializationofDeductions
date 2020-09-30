@@ -1,6 +1,6 @@
 from owlready2 import *
-from owlready2.materialize import Materialize
-from owlready2.preprocess import Preprocess
+from owlready2.__MANDISA_tests.materialize import Materialize
+from owlready2.__MANDISA_tests.preprocess import Preprocess
 
 
 class Wrapper:
@@ -127,16 +127,34 @@ class Wrapper:
         print('FINISHED DELETING PARENT')
 
         #INHERITING TO SUBCLASSES
+        bool_children = False
         for class_item in self.preprocess.items:
             if parent_to_remove in class_item.parent:
+                bool_children = True
                 class_item.assemble()
-                class_item.inherit(par_contents)
+                if par_contents not in class_item.contents:
+                    print("RITSENIIII")
+                    class_item.inherit(par_contents)
                 class_item.full_item()
                 #DELETING SUBCLASS REFERENCES TO PARENT
                 class_item.del_in_item('#'+self.refact_i_t_e)
             else:
                 class_item.assemble()
                 class_item.full_item()
+
+        #DELETING RELATIONSHIPS
+        delete_index_o = []
+        if bool_children == False:
+            print("NO CHILDREN NO CHILDREN")
+            for i, obj in enumerate(self.preprocess.obj_items):
+                print(parent_to_remove)
+                print(obj.domain)
+                if parent_to_remove in obj.domain:
+                    delete_index_o.append(i)
+        for j in delete_index_o:
+                del self.preprocess.obj_items[j]
+                print('FINISHED DELETING RELATIONSHIPS')
+
         #self.preprocess.items_original_file()
         for obj_item in self.preprocess.obj_items:
             obj_item.assemble_obj()
