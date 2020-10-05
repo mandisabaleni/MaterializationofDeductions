@@ -1,5 +1,5 @@
-from owlready2.__MANDISA_tests.deduction import Deduction
-from owlready2.__MANDISA_tests.item import Item
+from owlready2.Extension_MOD.deduction import Deduction
+from owlready2.Extension_MOD.item import Item
 from owlready2.namespace import _open_onto_file
 
 class Preprocess:
@@ -54,7 +54,8 @@ class Preprocess:
             item_to_edit = "@#$%^&RESET"
             whole_deduction = ""
             for i, line in enumerate(f):
-
+                if end_of_header == False:
+                    self.header +=line
                 #if "Ontology" in line:
                  #   start_of_header = True
                   #  if '''/>''' in line:
@@ -96,14 +97,19 @@ class Preprocess:
                 print("start header---end header---start deduction---end deduction")
                 print(start_of_header,end_of_header,start_of_deduction,end_of_deduction)
                 '''
-    def items_original_file(self):
-       with _open_onto_file(self.base_iri, self.input_file, mode="rt", only_local=False) as f:
+    def items_original_file(self,input):
+       self.items.clear()
+       self.obj_items.clear()
+       print(input)
+       with _open_onto_file(self.base_iri, input, mode="rb", only_local=False) as f:
            stack = []
            in_item = False
            eq = False
            temp_str = ''
-
            for i, line in enumerate(f):
+               print(line)
+           for i, line in enumerate(f):
+
                temp_str += line
                if stack == []: in_item = False
                else: in_item = True
@@ -165,27 +171,4 @@ class Preprocess:
                    if ("<rdfs:subClassOf" in line) and (line[line.index("<rdfs:subClassOf") + 17:].strip() == '') and (eq==False):#if subclass for cardinality restriction
                        self.items[-1].bool_card_restr = True
                        temp_str = line
-       return self.items #access via object rather
-
-
-
-
-    '''
-           #self.items.pop(0)
-           for i in self.obj_items:
-               print("\n\n\n ------------------------\nName")
-               print(i.name)
-               print("Parents")
-               print(i.parent)
-           for i in self.items:
-               print("\n\n\n ------------------------\nName")
-               print(i.name)
-               print("Equivalent classes")
-               print(i.eq)
-               print("Cardinality restrictions")
-               print(i.card_restr)
-               print("Parents")
-               print(i.parent)
-               print("Disjoint")
-               print(i.disjoint)
-          '''
+       #return self.items #access via object rather

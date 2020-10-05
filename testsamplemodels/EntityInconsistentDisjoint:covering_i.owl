@@ -29,7 +29,7 @@
         <owl:versionInfo xml:lang="en"
             >v.1.4. Added Food class (used in domain/range of hasIngredient), Added several hasCountryOfOrigin restrictions on pizzas, Made hasTopping invers functional</owl:versionInfo>
     </owl:Ontology>
-    <!-- EDIT: clean up, remove uneccessary to work-->
+
     
     <!-- http://www.co-ode.org/ontologies/pizza/pizza.owl#DomainConcept -->
     
@@ -82,14 +82,8 @@
             >BaseFinaEQuebradica</rdfs:label>
         <rdfs:subClassOf rdf:resource="#PizzaBase"/>
         <rdfs:subClassOf rdf:resource="#PizzaTopping"/>
-        <owl:disjointWith rdf:resource="#DeepPanBase"/>
     </owl:Class>
     
-    <!--EDIT: delete safely http://www.co-ode.org/ontologies/pizza/pizza.owl#DeepPanBase -->
-    
-    <owl:Class rdf:about="#DeepPanBase">
-        <rdfs:label xml:lang="pt">BaseEspessa</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#PizzaBase"/>
-    </owl:Class>
+
     
 </rdf:RDF>

@@ -1,6 +1,6 @@
 from owlready2 import *
-from owlready2.__MANDISA_tests.materialize import Materialize
-from owlready2.__MANDISA_tests.preprocess import Preprocess
+from owlready2.Extension_MOD.materialize import Materialize
+from owlready2.Extension_MOD.preprocess import Preprocess
 
 test_file_path ="/Users/mandisabaleni/PycharmProjects/MaterializationOfDeductions/testsamplemodels"
 input_owl_name = "EntitySubsumptionbinary1-Nmand_i"

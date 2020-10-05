@@ -1,6 +1,6 @@
 from owlready2 import *
-from owlready2.__MANDISA_tests.materialize import Materialize
-from owlready2.__MANDISA_tests.preprocess import Preprocess
+from owlready2.Extension_MOD.materialize import Materialize
+from owlready2.Extension_MOD.preprocess import Preprocess
 
 
 class Wrapper:
@@ -17,10 +17,9 @@ class Wrapper:
     def manage(self):
         print("Please review the changes that have been made to your model below.")
         for i, deduction in enumerate(self.materialize.deductions):
-            if "subClassOf" in deduction.edit:  # entity subsumption
-                #print("subclass")
+            if "subClassOf" in deduction.edit: 
                 self.e_s_manage((i+1),deduction)
-        #send all again to reasoner and inform of consequences
+
 
     def e_s_manage(self, i, deduction):
         print("deduction.edit")
@@ -43,6 +42,8 @@ class Wrapper:
         send_back = False
         if choice == ("a"):#deduction accepted
             print("Deduction accepted.")
+            #self.materialize.deleteContent()
+            #self.materialize.write_to_RDFXML()
         if choice == ("b"):#remove constraint
             send_back = True
             self.remove_deduction(deduction)
@@ -53,10 +54,11 @@ class Wrapper:
             self.remove_subclass(deduction)
             print(self.refact_i_t_e + " has been removed. All constraints referencing the class have also been removed")
         if send_back:
-            self.resend()
+            print()
+            #self.resend()
     def resend(self):
         test_file_path = "/Users/mandisabaleni/PycharmProjects/MaterializationOfDeductions/testsamplemodels"
-        input_owl_name = self.materialize.output_file[self.materialize.output_file.rindex("/") + 1:]  # "EntitySubsumption_i"#"wrapper_removesubclass.owl"#
+        input_owl_name = self.materialize.output_file[self.materialize.output_file.rindex("/") + 1:]
         print("YO000")
         print(input_owl_name)
         print("Y0000")
@@ -87,8 +89,11 @@ class Wrapper:
         rematerial.write_to_RDFXML()
 
     def remove_deduction(self, deduction):
+        ed = deduction.edit.strip()
+        new_edit = b'        ' + ed.encode('ascii') + '\n'.encode('ascii')
+        print(new_edit)
         print(deduction.edit.encode('ascii'))
-        i = self.materialize.dict_deduction_line[deduction.edit.encode('ascii')]
+        i = self.materialize.dict_deduction_line[deduction.edit.encode('ascii')]#self.materialize.dict_deduction_line[deduction.edit.encode('ascii')]
         print('\n\n TO BE DELETED\n\n')
         print(self.materialize.list_file[i:i+1])
         print()
@@ -99,9 +104,13 @@ class Wrapper:
         print("printing file AFTER deduction removed")
         for line in self.materialize.list_file:
             print(line)
+        self.materialize.deleteContent()
+        self.materialize.write_to_RDFXML()
 
     def remove_subclass(self, deduction):
         #print(deduction.item_to_edit)
+        #self.materialize.deleteContent()
+        #self.materialize.write_to_RDFXML()
         index = deduction.item_to_edit.rindex("#")
         parent_to_remove = deduction.item_to_edit[index:deduction.item_to_edit.rindex("\"")].strip()
         #print(parent_to_remove)
@@ -109,13 +118,13 @@ class Wrapper:
         #GETTING CONTENTS OF PARENT
         par_contents = ''
         delete_index = []
-        for i, par in enumerate(self.preprocess.items):
+        for i, par in enumerate(self.materialize.items):
             #check if parent has no children, delete the object property
             if parent_to_remove in par.name:
                 par_contents = par.assemble()
                 #DELETING PARENT
                 print("DELETING PARENT")
-                print(self.preprocess.items[i].name)
+                print(self.materialize.items[i].name)
 
                 delete_index.append(i)
                 print(i)
@@ -123,12 +132,12 @@ class Wrapper:
         #DELETING PARENT CONT.
         if delete_index:
             for j in delete_index:
-                del self.preprocess.items[j]
+                del self.materialize.items[j]
         print('FINISHED DELETING PARENT')
 
         #INHERITING TO SUBCLASSES
         bool_children = False
-        for class_item in self.preprocess.items:
+        for class_item in self.materialize.items:
             if parent_to_remove in class_item.parent:
                 bool_children = True
                 class_item.assemble()
@@ -146,20 +155,45 @@ class Wrapper:
         delete_index_o = []
         if bool_children == False:
             print("NO CHILDREN NO CHILDREN")
-            for i, obj in enumerate(self.preprocess.obj_items):
+            for i, obj in enumerate(self.materialize.obj_items):
                 print(parent_to_remove)
                 print(obj.domain)
                 if parent_to_remove in obj.domain:
                     delete_index_o.append(i)
         for j in delete_index_o:
-                del self.preprocess.obj_items[j]
+                del self.materialize.obj_items[j]
                 print('FINISHED DELETING RELATIONSHIPS')
 
         #self.preprocess.items_original_file()
-        for obj_item in self.preprocess.obj_items:
+        for obj_item in self.materialize.obj_items:
             obj_item.assemble_obj()
             obj_item.full_item()
-        self.materialize.write_to_RDFXML_via_items(self.preprocess.items, self.preprocess.obj_items)
+
+        self.materialize.list_file.clear()
+
+        print("\n\nFINAL FILE ITEMS------------------------------\n\n")
+        self.materialize.list_file.append(self.materialize.header.encode('ascii'))
+        self.materialize.list_file.append(self.materialize.CLASS_HEADER.encode('ascii'))
+        for class_item in self.materialize.items:
+            class_item.to_list()
+            for line in class_item.full_list:
+                self.materialize.list_file.append((line+'\n').encode('ascii'))
+                #print(line)
+        self.materialize.list_file.append(self.materialize.OBJ_PROP_HEADER.encode('ascii'))
+        for obj_item in self.materialize.obj_items:
+            obj_item.to_list()
+            for line in obj_item.full_list:
+                self.materialize.list_file.append((line+'\n').encode('ascii'))
+                #print(line)
+        self.materialize.list_file.append('</rdf:RDF>'.encode('ascii'))
+        for i in self.materialize.list_file:
+            print(i)
+
+        self.materialize.deleteContent()
+        self.materialize.write_to_RDFXML()
+        print("\n\nEND OF FINAL FILE ITEMS------------------------------\n\n")
+
+        #self.materialize.write_to_RDFXML_via_items(self.materialize.items, self.materialize.obj_items)
 
 
 
@@ -168,8 +202,6 @@ class Wrapper:
 
 
 
-    '''
-    def onlysubclass(self):
-        print("method that checks removing for only subclass. currently not implemented")
-    '''
+
+
 

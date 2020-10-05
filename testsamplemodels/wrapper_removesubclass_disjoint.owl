@@ -46,6 +46,15 @@
     
 
 
+    <!-- http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#BaconPizza -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#BaconPizza">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Pizza"/>
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Margherita"/>
+    </owl:Class>
+    
+
+
     <!-- http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#CheeseTopping -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#CheeseTopping">
@@ -63,7 +72,7 @@
                     <rdf:Description rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Pizza"/>
                     <owl:Restriction>
                         <owl:onProperty rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#hasTopping"/>
-                        <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
+                        <owl:minQualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minQualifiedCardinality>
                         <owl:onClass rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#CheeseTopping"/>
                     </owl:Restriction>
                 </owl:intersectionOf>
@@ -98,6 +107,7 @@
     <!-- http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Margherita -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Margherita">
+        <owl:disjointWith rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#BaconPizza"/>
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Pizza"/>
         <rdfs:subClassOf>
             <owl:Restriction>

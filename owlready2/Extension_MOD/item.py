@@ -63,7 +63,7 @@ class Item:
                 self.full += self.name + self.contents + "\n"
             else:
                 self.full += self.name + self.contents + "    </owl:ObjectProperty>\n\n"
-        print( self.full)
+        #print( self.full)
         return self.full
 
     def to_list(self):
@@ -82,4 +82,3 @@ class Item:
             if str in line:
                 del self.full_list[i]
         self.list_to_string()
-
