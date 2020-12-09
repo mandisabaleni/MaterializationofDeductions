@@ -1,2 +1,7 @@
+*.rst linguist-detectable=false
+*.pyc linguist-detectable=false
+*.jar linguist-detectable=false
+*.py linguist-detectable=true
+
 # Auto detect text files and perform LF normalization
 * text=auto
