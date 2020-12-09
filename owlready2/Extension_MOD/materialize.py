@@ -1,6 +1,8 @@
 from owlready2.Extension_MOD.item import Item
 from owlready2.namespace import _open_onto_file
-
+'''
+Materialize is responsible for editing the ontology with inferences and writing subsequent ontology to file
+'''
 class Materialize:
     def __init__(self, deductions, input_file, output_file, prep):
         self.preprocess = prep
@@ -18,7 +20,9 @@ class Materialize:
 
         self.OBJ_PROP_HEADER = '\n    <!--\n    ///////////////////////////////////////////////////////////////////////////////////////\n    //\n    // Object Properties\n    //\n    ///////////////////////////////////////////////////////////////////////////////////////\n     -->\n\n\n'
         self.CLASS_HEADER = '\n    <!--\n    ///////////////////////////////////////////////////////////////////////////////////////\n    //\n    // Classes\n    //\n    ///////////////////////////////////////////////////////////////////////////////////////\n     -->\n\n\n'
-
+    '''
+    Load_input_file loads input file into list for dynamic manioulation
+    '''
     def load_input_file(self):
         end_of_header = False
         for line in self.input_object_file:
@@ -29,12 +33,15 @@ class Materialize:
             if ('''</owl:Ontology>'''.encode('ascii') in line) or (('''<owl:Ontology'''.encode('ascii') in line) and ('''/>'''.encode('ascii') in line)):
                 self.header += '\n\n'
                 end_of_header = True
-
+    '''
+    Items_original_file writes the file that has had materialization of deductions performed to Item objects (class and object properties)
+    Identifies constraints and stores them accordingly for each class/object property
+    input ~ the materialized OWL file
+    '''
     def items_original_file(self, input):
         self.items.clear()
         self.obj_items.clear()
-        print(input)
-        with _open_onto_file(self.base_iri, self.output_file, mode="rt", only_local=False) as f:#with _open_onto_file(self.base_iri, input, mode="rt", only_local=False) as f:
+        with _open_onto_file(self.base_iri, self.output_file, mode="rt", only_local=False) as f:
             stack = []
             in_item = False
             eq = False
@@ -103,26 +110,32 @@ class Materialize:
                             eq == False):  # if subclass for cardinality restriction
                         self.items[-1].bool_card_restr = True
                         temp_str = line
-
+    '''
+    Materialize_deductions identifies the type of inference to call on relevant function to make appropriate edit
+    '''
     def materialize_deductions(self):
         self.load_input_file()
         for i, line in enumerate(self.list_file):
-
             for deduction in self.deductions:
                 index = deduction.item_to_edit.rfind('#')
                 refact_item_to_edit = deduction.item_to_edit[:7]+deduction.item_to_edit[index:]
-
 
                 if ("subClassOf" in deduction.edit) or ("equivalentClass" in deduction.edit):#entity subsumption
                     self.add(i, deduction.item_to_edit.encode('utf_8'), refact_item_to_edit.encode('utf_8'), deduction.edit.encode('utf_8'), line)
                 if ("owl#Nothing" in deduction.edit) and ("Class" in deduction.edit):
                     print("inconsistent class")
                     self.add(i, deduction.item_to_edit.encode('utf_8'), refact_item_to_edit.encode('utf_8'), "<!--DEDUCTION-->\n<!--INCONSISTENT CLASS-->\n".encode('utf_8'), line)
-
+    '''
+    Write_to_RDFXML writes ontology from dynamic list to OWL file
+    '''
     def write_to_RDFXML(self):
         for line in self.list_file:
             self.output_object_file.write(line)
-
+    '''
+    Write_to_RDFXML_via_items writes ontology from Item objects list to OWL file
+    all_class_items~ classes to be written to file
+    all_obj_items~ object properties to be written to file
+    '''
     def write_to_RDFXML_via_items(self, all_class_items, all_obj_items):
         with _open_onto_file(self.base_iri, self.output_file, mode="wb", only_local=False) as f:
             f.write(self.preprocess.get_header().encode('ascii'))
@@ -144,10 +157,20 @@ class Materialize:
                     f.write(('\n\n    <!-- ' + link + ' -->\n\n').encode('ascii'))
                     f.write(c_i.full.encode('ascii'))
             f.write('\n</rdf:RDF>'.encode('ascii'))
+    '''
+    DeleteContent clears output file
+    '''
     def deleteContent(self):
         self.output_object_file.seek(0)
         self.output_object_file.truncate()
-
+    '''
+    Add adds an inference to class/object property
+    i~ index to insert inference
+    item_to_edit~Class/object property to add inference to
+    alt_item_to_edit ~alternative format name of class/object property to be edited
+    edit ~ inference
+    line ~ the line to compare to determine if inference added at that point
+    '''
     def add(self, i, item_to_edit, alt_item_to_edit, edit, line):
         #print("adding deduction")
         if (item_to_edit in line) or (alt_item_to_edit in line):  # with iri or without iri
@@ -155,9 +178,3 @@ class Materialize:
             new_edit = b'        '+ ed.encode('ascii')+'\n'.encode('ascii')
             self.list_file.insert(i+1, new_edit)
             self.dict_deduction_line[edit] = i+1
-
-
-
-    def writeToLog(self, item_to_edit, alt_item_to_edit,case):
-        log = open(self.output_file[:4]+".txt", "w+")
-        log.write()

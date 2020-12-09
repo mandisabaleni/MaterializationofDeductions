@@ -7,10 +7,35 @@
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
     <owl:Ontology rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27"/>
+    
 
 
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
 
-    <!--
+    
+
+
+    <!-- http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#hasIngredient -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#hasIngredient"/>
+    
+
+
+    <!-- http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#hasTopping -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#hasTopping">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#hasIngredient"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
     // Classes
@@ -18,20 +43,20 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    
 
-    <owl:Class rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#BaconPizza">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Pizza"/>
-        <owl:disjointWith rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Margherita"/>
-    </owl:Class>
 
+    <!-- http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#CheeseTopping -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#CheeseTopping">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#PizzaTopping"/>
     </owl:Class>
+    
 
+
+    <!-- http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#CheeseyPizza -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#CheeseyPizza">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Pizza"/>
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
@@ -45,18 +70,34 @@
             </owl:Class>
         </owl:equivalentClass>
     </owl:Class>
+    
 
+
+    <!-- http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#DomainConcept -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#DomainConcept"/>
+    
 
+
+    <!-- http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Food -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Food">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#DomainConcept"/>
     </owl:Class>
+    
 
+
+    <!-- http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#GourmetMargherita -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#GourmetMargherita">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#CheeseyPizza"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Margherita"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Margherita -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Margherita">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Pizza"/>
         <rdfs:subClassOf>
             <owl:Restriction>
@@ -72,61 +113,42 @@
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
+    
 
 
+    <!-- http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Pizza -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Pizza">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Food"/>
         <owl:disjointWith rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#PizzaTopping"/>
     </owl:Class>
+    
 
+
+    <!-- http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#PizzaTopping -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#PizzaTopping">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Food"/>
     </owl:Class>
+    
 
+
+    <!-- http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#StandardMargherita -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#StandardMargherita">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#CheeseyPizza"/>
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Pizza"/>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#hasTopping"/>
-                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#TomatoTopping"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
-        <rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#hasTopping"/>
-                <owl:qualifiedCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:qualifiedCardinality>
-                <owl:onClass rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#CheeseTopping"/>
-            </owl:Restriction>
-        </rdfs:subClassOf>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#Margherita"/>
     </owl:Class>
+    
 
 
+    <!-- http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#TomatoTopping -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#TomatoTopping">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#PizzaTopping"/>
     </owl:Class>
-
-
-
-    <!--
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Object Properties
-    //
-    ///////////////////////////////////////////////////////////////////////////////////////
-     -->
-
-
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#hasIngredient"/>
-
-
-    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#hasTopping">
-        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/mandisabaleni/ontologies/2020/8/untitled-ontology-27#hasIngredient"/>
-    </owl:ObjectProperty>
-
-
 </rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi -->
+

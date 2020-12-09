@@ -2,7 +2,9 @@ from owlready2 import *
 from owlready2.Extension_MOD.wrapper import Wrapper
 from owlready2.Extension_MOD.materialize import Materialize
 from owlready2.Extension_MOD.preprocess import Preprocess
-
+'''
+DUMMY class used to explore wrapper functionality
+'''
 test_file_path = "/Users/mandisabaleni/PycharmProjects/MaterializationOfDeductions/testsamplemodels"
 input_owl_name = "wrapper_removesubclass"
 deductions_owl_name = "temp.owl"
