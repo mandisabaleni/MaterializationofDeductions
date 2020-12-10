@@ -1,10 +1,10 @@
 # MaterializationOfDeductions
 An extension of Owlready by Mandisa Baleni. Owlready was designed and written by Jean-Baptiste Lamy to aid automatically editing OWL ontologies with implicit inferences found in data models that are deduced  by a reasoner. 
-The directory Extension_MOD is an extension designed and programmed by Mandisa Baleni to better realize ontology engineering for OWL ontologies that encapsualte EER concepts. 
+The directory Extension_MOD is an extension designed and programmed by Mandisa Baleni to better realize ontology engineering for OWL ontologies that encapsulate EER concepts. 
 Moreover, additional services include user validation mechanisms  like accepting and rejecting inferences and restructuring the ontology based on description logics semantics 
 (formalised reasoning rules). This contributes to the efforts that have been made to achieve a data representation with underlying knowledge so that data has meaning. Data concepts can be expressed
 in relation to one another in a knowledge layer and the actual data of said concepts can be stored in relational databases. This plays a role in achieving the semantic web and decision-making support 
-in many subject domains like mdeicine practice.
+in many subject domains like medicine practice.
 
 For deeper insight into the purpose of this project, software design expected I/O, please find AToolforManagingtheDeductionsonaConceptualDataModel.pdf in the main directory. 
 
